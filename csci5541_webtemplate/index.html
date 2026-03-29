@@ -129,29 +129,47 @@
 
     <h2 id="introduction">Introduction / Background / Motivation</h2>
     <p><b>What did you try to do? What problem did you try to solve?</b></p>
-    <p>We are trying to identify early warning signs of corporate misreporting by analyzing how executives communicate on earnings calls. When a firm files an SEC Form 8-K Item 4.02, it formally declares that prior financial statements are unreliable. We want to know if linguistic evasion, uncertainty, or excess hedging can be detected in transcripts 90-180 days before this announcement, particularly by comparing scripted remarks against unscripted analyst Q&A sessions.</p>
+    <p>We are trying to identify early warning signs of corporate misreporting by analyzing how executives communicate
+      on earnings calls. When a firm files an SEC Form 8-K Item 4.02, it formally declares that prior financial
+      statements are unreliable. We want to know if linguistic evasion, uncertainty, or excess hedging can be detected
+      in transcripts 90-180 days before this announcement, particularly by comparing scripted remarks against unscripted
+      analyst Q&A sessions.</p>
 
     <p><b>How is it done today, and what are the limits of current practice?</b></p>
-    <p>Prior NLP work on earnings calls largely targets continuous, price-mediated outcomes like stock returns, volatility, and analyst sentiment. Predicting discrete regulatory events like financial restatements requires a qualitatively different class of linguistic features. Furthermore, previous deception research often treated the conference call as a single block of text rather than structurally separating pre-approved scripted remarks from spontaneous, high-cognitive-load Q&A sections.</p>
+    <p>Prior NLP work on earnings calls largely targets continuous, price-mediated outcomes like stock returns,
+      volatility, and analyst sentiment. Predicting discrete regulatory events like financial restatements requires a
+      qualitatively different class of linguistic features. Furthermore, previous deception research often treated the
+      conference call as a single block of text rather than structurally separating pre-approved scripted remarks from
+      spontaneous, high-cognitive-load Q&A sections.</p>
 
     <p><b>Who cares? If you are successful, what difference will it make?</b></p>
-    <p>Restatement events impose significant investor losses, erode market trust, and precipitate regulatory enforcement. Currently, outside investors only learn of the problem at the time of the announcement. Detecting linguistic precursors would provide investors and regulators with a probabilistic screening aid to flag potential misconduct before the damage is fully realized.</p>
+    <p>Restatement events impose significant investor losses, erode market trust, and precipitate regulatory
+      enforcement. Currently, outside investors only learn of the problem at the time of the announcement. Detecting
+      linguistic precursors would provide investors and regulators with a probabilistic screening aid to flag potential
+      misconduct before the damage is fully realized.</p>
 
     <hr>
 
     <h2 id="approach">Approach</h2>
     <p><b>What did you do exactly? How did you solve the problem?</b></p>
-    <p>We framed the problem as a binary classification task at the call level. We constructed a dataset linking SEC EDGAR filings to transcripts via the FinancialModelingPrep API, utilizing a 90-180 day clean window to prevent look-ahead bias. We then segmented the calls into scripted remarks and unscripted Q&A. </p>
-    
+    <p>We framed the problem as a binary classification task at the call level. We constructed a dataset linking SEC
+      EDGAR filings to transcripts via the FinancialModelingPrep API, utilizing a 90-180 day clean window to prevent
+      look-ahead bias. We then segmented the calls into scripted remarks and unscripted Q&A. </p>
+
     <p>We evaluated three distinct model tiers:</p>
     <ul>
-      <li><b>Tier 1 (Lexicon Baseline):</b> Loughran-McDonald term frequencies across categories like uncertainty and litigiousness, classified via Logistic Regression, SVM, and Random Forest.</li>
-      <li><b>Tier 2 (Fine-Tuned Transformers):</b> FinBERT (with tail-biased truncation to prioritize Q&A) and Longformer (with sliding-window chunking).</li>
-      <li><b>Tier 3 (LLM Prompting):</b> Zero-shot and few-shot evaluation using GPT-4o, LLaMA 3, and FinGPT to assess evasion, hedging density, and response directness.</li>
+      <li><b>Tier 1 (Lexicon Baseline):</b> Loughran-McDonald term frequencies across categories like uncertainty and
+        litigiousness, classified via Logistic Regression, SVM, and Random Forest.</li>
+      <li><b>Tier 2 (Fine-Tuned Transformers):</b> FinBERT (with tail-biased truncation to prioritize Q&A) and
+        Longformer (with sliding-window chunking).</li>
+      <li><b>Tier 3 (LLM Prompting):</b> Zero-shot and few-shot evaluation using GPT-4o, LLaMA 3, and FinGPT to assess
+        evasion, hedging density, and response directness.</li>
     </ul>
 
     <p><b>What makes your approach new?</b></p>
-    <p>No published NLP paper has built a labeled benchmark linking earnings transcripts to restatement events under look-ahead-free conditions, applied fine-tuned transformers to this task, or modeled the scripted/unscripted call structure as an explicit experimental variable (testing our "Overcompensation Hypothesis").</p>
+    <p>No published NLP paper has built a labeled benchmark linking earnings transcripts to restatement events under
+      look-ahead-free conditions, applied fine-tuned transformers to this task, or modeled the scripted/unscripted call
+      structure as an explicit experimental variable (testing our "Overcompensation Hypothesis").</p>
 
     <hr>
 
@@ -197,16 +215,21 @@
 
     <hr>
 
+    <h2 id="conclusion">Conclusion, Limitations and Future Work</h2>
+      <p><b>What limitations does your model have?</b></p>
+      <p>Our primary limitation is label ambiguity: Form 8-K Item 4.02 captures both intentional manipulation and honest
+        accounting errors. Therefore, our model learns <i>pre-disclosure language patterns</i> rather than fraud itself.
+        Furthermore, transcript availability may be biased toward larger-cap firms, potentially limiting
+        generalizability to smaller companies.</p>
 
+      <p><b>Does your work have potential harm or risk to our society?</b></p>
+      <p>A model flagging pre-restatement linguistic patterns could cause severe reputational harm to firms if treated
+        as a definitive signal of fraud. To mitigate this, our findings must be treated strictly as an exploratory,
+        probabilistic screening aid that requires human review. Furthermore, we acknowledge the risk of LLM
+        hallucination in zero-shot classification, which we mitigate by logging and reviewing a stratified random sample
+        of model rationales.</p>
 
-    <<h2 id="conclusion">Conclusion, Limitations and Future Work</h2>
-    <p><b>What limitations does your model have?</b></p>
-    <p>Our primary limitation is label ambiguity: Form 8-K Item 4.02 captures both intentional manipulation and honest accounting errors. Therefore, our model learns <i>pre-disclosure language patterns</i> rather than fraud itself. Furthermore, transcript availability may be biased toward larger-cap firms, potentially limiting generalizability to smaller companies.</p>
-
-    <p><b>Does your work have potential harm or risk to our society?</b></p>
-    <p>A model flagging pre-restatement linguistic patterns could cause severe reputational harm to firms if treated as a definitive signal of fraud. To mitigate this, our findings must be treated strictly as an exploratory, probabilistic screening aid that requires human review. Furthermore, we acknowledge the risk of LLM hallucination in zero-shot classification, which we mitigate by logging and reviewing a stratified random sample of model rationales.</p>
-
-    <hr>
+      <hr>
 
 
   </div>
