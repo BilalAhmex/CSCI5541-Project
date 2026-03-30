@@ -1,85 +1,43 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
-<html lang=" en-US">
-
+<html lang="en-US">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NLP Class Project | Spring 2026 CSCI 5541 | University of Minnesota</title>
 
   <link rel="stylesheet" href="./files/bulma.min.css" />
-
   <link rel="stylesheet" href="./files/styles.css">
   <link rel="preconnect" href="https://fonts.gstatic.com/">
   <link href="./files/css2" rel="stylesheet">
   <link href="./files/css" rel="stylesheet">
-
-
   <base href="." target="_blank">
 </head>
-
-
 <body>
   <div>
     <div class="wrapper">
-      <h1 style="font-family: &#39;Lato&#39;, sans-serif;">Linguistic Precursors to Financial Restatements: A
-        Multi-Model NLP
-        Analysis of Earnings Call Transcripts</h1>
-      <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Spring 2026 CSCI 5541 NLP: Class Project - University of
-        Minnesota</h4>
-      <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Lexicon Labs</h4>
+      <h1 style="font-family: 'Lato', sans-serif;">Linguistic Precursors to Financial Restatements: A Multi-Model NLP Analysis of Earnings Call Transcripts</h1>
+      <h4 style="font-family: 'Lato', sans-serif;">Spring 2026 CSCI 5541 NLP: Class Project - University of Minnesota</h4>
+      <h4 style="font-family: 'Lato', sans-serif;">Lexicon Labs</h4>
 
       <div class="authors-wrapper">
-
-        <div class="author-container">
-          <div class="author-image">
-
-            <img src="">
-
-
-          </div>
-          <p>
-
-            Shivank Sapra
-
-          </p>
-        </div>
-
-        <div class="author-container">
-          <div class="author-image">
-
-            <img src="">
-
-          </div>
-          <p>
-
-            Bilal Ahmed
-
-          </p>
-        </div>
-
-        <div class="author-container">
-          <div class="author-image">
-
-            <img src="">
-
-          </div>
-          <p>
-            Ahmet efe
-          </p>
-        </div>
+        <div class="author-container"><p>Shivank Sapra</p></div>
+        <div class="author-container"><p>Bilal Ahmed</p></div>
+        <div class="author-container"><p>Ahmet Efe</p></div>
       </div>
 
       <br />
 
       <div class="authors-wrapper">
         <div class="publication-links">
-          <!-- Github link -->
           <span class="link-block">
             <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
-              <span>Final Report</span>
+              <span>Midterm Check-In</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+              <span>Project Proposal</span>
             </a>
           </span>
           <span class="link-block">
@@ -87,152 +45,148 @@
               <span>Code</span>
             </a>
           </span>
-          <span class="link-block">
-            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
-              <span>Model Weights</span>
-            </a>
-          </span>
         </div>
       </div>
-
-
     </div>
   </div>
-
 
   <div class="wrapper">
     <hr>
 
     <h2 id="abstract">Abstract</h2>
-    <p>We study whether corporate executives' language on quarterly earnings call transcripts contains detectable
-      linguistic signals predictive of subsequent financial restatements—a task entirely unstudied in NLP. We construct
-      the first labeled benchmark linking SEC Form 8-K Item 4.02 restatement filings to earnings call transcripts within
-      a pre-announcement clean window. We evaluate three model tiers: a Loughran–McDonald lexicon baseline, fine-tuned
-      domain transformers (FinBERT, Longformer), and zero-/few-shot LLMs (GPT-4o, LLaMA 3, FinGPT). A central
-      methodological contribution is the explicit modeling of scripted prepared remarks versus unscripted analyst Q&A
-      sections grounded in cognitive load theory.</p>
+    <p>
+      We study whether executives’ language on earnings call transcripts contains detectable precursors of later SEC Form 8-K Item 4.02 restatement disclosures. Since our original proposal, the project has evolved from a large-scale benchmark ambition into a controlled empirical study under realistic data constraints. We built an end-to-end dataset curation pipeline that extracts restatement labels from SEC EDGAR <i>submissions.zip</i>, assembles transcripts from MAEC and Motley Fool, segments calls into scripted prepared remarks and unscripted Q&amp;A, and matches calls to later restatements. The current dataset contains 198 labeled examples (66 positive, 132 matched controls). Given the limited overlap between public transcript corpora and restatement events, our current modeling plan emphasizes three tiers under small-data conditions: a Loughran–McDonald lexicon baseline, contextual financial embeddings / lightweight transformer experiments, and zero-/few-shot LLM prompting.
+    </p>
     <hr>
 
     <h2 id="teaser">Teaser Figure</h2>
-    <p><i>[We could create a diagram showing your pipeline: Transcripts -> Split into Scripted/Q&A -> Models (Lexicon, FinBERT, LLMs) -> Output: 8-K Restatement Prediction.]</i></p>
-    <p class="sys-img"><img src="./files/teaser.png" alt="Pipeline Diagram"></p>
+    <p>
+      The figure below summarizes our current data curation pipeline. We first extract Item 4.02 filings from SEC bulk submissions data, then combine free earnings-call transcript corpora, segment calls into full/scripted/Q&amp;A views, match positives in a pre-event window, and construct a 2:1 matched control set.
+    </p>
+    <p class="sys-img"><img src="./files/teaser.png" alt="Dataset curation pipeline"></p>
 
-
-    <h3 id="the-timeline-and-the-highlights">Any subsection</h3>
-
-    <p>If you need to explain more about your figure</p>
+    <h3 id="pipeline-caption">Pipeline summary</h3>
+    <p>
+      This project’s main technical milestone so far is the dataset pipeline itself. The biggest challenge was not model training, but aligning regulatory events with publicly available transcript data in a leakage-aware way.
+    </p>
 
     <hr>
 
     <h2 id="introduction">Introduction / Background / Motivation</h2>
-    <p><b>What did you try to do? What problem did you try to solve?</b></p>
-    <p>We are trying to identify early warning signs of corporate misreporting by analyzing how executives communicate
-      on earnings calls. When a firm files an SEC Form 8-K Item 4.02, it formally declares that prior financial
-      statements are unreliable. We want to know if linguistic evasion, uncertainty, or excess hedging can be detected
-      in transcripts 90-180 days before this announcement, particularly by comparing scripted remarks against unscripted
-      analyst Q&A sessions.</p>
+    <p><b>What problem are we trying to solve?</b></p>
+    <p>
+      When a publicly traded company files SEC Form 8-K Item 4.02, it formally discloses that previously issued financial statements should no longer be relied upon. We ask whether there are earlier linguistic signals in management’s earnings-call language—especially in unscripted analyst Q&amp;A—that precede these restatement disclosures.
+    </p>
 
-    <p><b>How is it done today, and what are the limits of current practice?</b></p>
-    <p>Prior NLP work on earnings calls largely targets continuous, price-mediated outcomes like stock returns,
-      volatility, and analyst sentiment. Predicting discrete regulatory events like financial restatements requires a
-      qualitatively different class of linguistic features. Furthermore, previous deception research often treated the
-      conference call as a single block of text rather than structurally separating pre-approved scripted remarks from
-      spontaneous, high-cognitive-load Q&A sections.</p>
+    <p><b>Why is this difficult?</b></p>
+    <p>
+      Prior work on earnings calls mostly studies market outcomes such as volatility or returns, not discrete regulatory events. In our case, the core difficulty is dataset construction: public transcript corpora skew toward large-cap firms, while Item 4.02 restatements often occur at smaller firms with weaker controls. This creates a structural coverage mismatch between labels and available text.
+    </p>
 
-    <p><b>Who cares? If you are successful, what difference will it make?</b></p>
-    <p>Restatement events impose significant investor losses, erode market trust, and precipitate regulatory
-      enforcement. Currently, outside investors only learn of the problem at the time of the announcement. Detecting
-      linguistic precursors would provide investors and regulators with a probabilistic screening aid to flag potential
-      misconduct before the damage is fully realized.</p>
+    <p><b>Why does it matter?</b></p>
+    <p>
+      If linguistic signals exist before a restatement becomes public, they could support a probabilistic screening tool for analysts, regulators, or researchers. Our aim is not to accuse firms of fraud, but to study whether language carries measurable early-warning patterns under realistic data limitations.
+    </p>
 
     <hr>
 
     <h2 id="approach">Approach</h2>
-    <p><b>What did you do exactly? How did you solve the problem?</b></p>
-    <p>We framed the problem as a binary classification task at the call level. We constructed a dataset linking SEC
-      EDGAR filings to transcripts via the FinancialModelingPrep API, utilizing a 90-180 day clean window to prevent
-      look-ahead bias. We then segmented the calls into scripted remarks and unscripted Q&A. </p>
-
-    <p>We evaluated three distinct model tiers:</p>
+    <p><b>How is the dataset built?</b></p>
     <ul>
-      <li><b>Tier 1 (Lexicon Baseline):</b> Loughran-McDonald term frequencies across categories like uncertainty and
-        litigiousness, classified via Logistic Regression, SVM, and Random Forest.</li>
-      <li><b>Tier 2 (Fine-Tuned Transformers):</b> FinBERT (with tail-biased truncation to prioritize Q&A) and
-        Longformer (with sliding-window chunking).</li>
-      <li><b>Tier 3 (LLM Prompting):</b> Zero-shot and few-shot evaluation using GPT-4o, LLaMA 3, and FinGPT to assess
-        evasion, hedging density, and response directness.</li>
+      <li><b>Phase 1 — Restatement labels:</b> Extract SEC Form 8-K Item 4.02 events from the SEC EDGAR <i>submissions.zip</i> bulk file. This yields 1,159 unique filings from 827 tickers spanning 2015–2024.</li>
+      <li><b>Phase 2 — Transcript pool:</b> Load and standardize earnings call transcripts from MAEC and Motley Fool. The current combined pool contains 20,223 transcripts from 3,087 tickers.</li>
+      <li><b>Phase 3 — Positive matching:</b> Link transcripts to later Item 4.02 filings using a 0–365 day pre-event window. This yields 66 positive examples.</li>
+      <li><b>Phase 4 — Controls:</b> For each positive example, sample two non-restating control calls matched on calendar quarter and, where available, SIC information.</li>
+      <li><b>Phase 5 — Final dataset:</b> Assemble 198 examples total (66 positive, 132 control) and create company-disjoint temporal splits.</li>
     </ul>
 
-    <p><b>What makes your approach new?</b></p>
-    <p>No published NLP paper has built a labeled benchmark linking earnings transcripts to restatement events under
-      look-ahead-free conditions, applied fine-tuned transformers to this task, or modeled the scripted/unscripted call
-      structure as an explicit experimental variable (testing our "Overcompensation Hypothesis").</p>
+    <p><b>What changed relative to the original proposal?</b></p>
+    <p>
+      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days and reframed the project as a small-data empirical comparison rather than a large supervised benchmark.
+    </p>
+
+    <p><b>Current model tiers</b></p>
+    <ul>
+      <li><b>Tier 1 — Lexicon baseline:</b> Loughran–McDonald lexical categories and sparse text features with classical classifiers.</li>
+      <li><b>Tier 2 — Contextual model:</b> Financial-domain contextual embeddings and lightweight transformer experiments under limited supervision.</li>
+      <li><b>Tier 3 — LLM prompting:</b> Zero-shot and few-shot prompting to evaluate whether larger models can detect risk-related discourse patterns without task-specific training.</li>
+    </ul>
 
     <hr>
 
-    <h2 id="results">Results</h2>
+    <h2 id="results">Progress and Current Results</h2>
     <p>
-      <b>How did you measure success? What experiments were used? What were the results, both quantitative and
-        qualitative? Did you succeed? Did you fail? Why?</b>
+      Our most significant result so far is the fully implemented dataset curation pipeline and the first viable matched dataset for the task.
     </p>
-    <p>
-      Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-      eos qui ratione voluptatem sequi nesciunt.
-    </p>
+
     <table>
       <thead>
         <tr>
-          <th style="text-align: center"><strong>Experiment</strong></th>
-          <th style="text-align: center">1</th>
-          <th style="text-align: center">2</th>
-          <th style="text-align: center">3</th>
+          <th style="text-align: center"><strong>Stage</strong></th>
+          <th style="text-align: center"><strong>Output</strong></th>
+          <th style="text-align: center"><strong>Status</strong></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center"><strong>Sentence</strong></td>
-          <td style="text-align: center">Example 1</td>
-          <td style="text-align: center">Example 2</td>
-          <td style="text-align: center">Example 3</td>
+          <td style="text-align: center"><strong>Phase 1</strong></td>
+          <td style="text-align: center">1,159 Item 4.02 filings from 827 tickers</td>
+          <td style="text-align: center">Complete</td>
         </tr>
         <tr>
-          <td style="text-align: center"><strong>Errors</strong></td>
-          <td style="text-align: center">error A, error B, error C</td>
-          <td style="text-align: center">error C</td>
-          <td style="text-align: center">error B</td>
+          <td style="text-align: center"><strong>Phase 2</strong></td>
+          <td style="text-align: center">20,223 transcripts from 3,087 tickers</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><strong>Phase 3</strong></td>
+          <td style="text-align: center">66 positive matches (0–365 day window)</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><strong>Phase 4–5</strong></td>
+          <td style="text-align: center">198-example final dataset (66 pos / 132 ctrl)</td>
+          <td style="text-align: center">Complete</td>
         </tr>
       </tbody>
-      <caption>Table 1. This is Table 1's caption</caption>
+      <caption>Table 1. Current dataset curation progress.</caption>
     </table>
+
     <br>
     <div style="text-align: center;">
-      <img style="height: 300px;" alt="" src="./files/results.png">
+      <img style="height: 300px;" alt="Project progress summary" src="./files/results.png">
     </div>
     <br><br>
 
+    <p><b>Interpretation.</b></p>
+    <p>
+      The small number of positives is not a pipeline failure; it reflects a real structural limitation of free data sources. Of 827 unique restating tickers, only a small subset appear in available transcript corpora with usable dates and text. This finding itself is an important project outcome and directly motivates our small-data evaluation strategy.
+    </p>
+
     <hr>
 
-    <h2 id="conclusion">Conclusion, Limitations and Future Work</h2>
-      <p><b>What limitations does your model have?</b></p>
-      <p>Our primary limitation is label ambiguity: Form 8-K Item 4.02 captures both intentional manipulation and honest
-        accounting errors. Therefore, our model learns <i>pre-disclosure language patterns</i> rather than fraud itself.
-        Furthermore, transcript availability may be biased toward larger-cap firms, potentially limiting
-        generalizability to smaller companies.</p>
+    <h2 id="conclusion">Conclusion, Limitations, and Next Steps</h2>
+    <p><b>Current limitation.</b></p>
+    <p>
+      The main limitation is dataset overlap. Public transcript resources underrepresent the smaller firms that disproportionately appear in the restatement set. This reduced our final matched dataset to 66 positives, which is enough for lexicon baselines, prompt-based evaluation, and exploratory contextual modeling, but not ideal for strong end-to-end transformer fine-tuning claims.
+    </p>
 
-      <p><b>Does your work have potential harm or risk to our society?</b></p>
-      <p>A model flagging pre-restatement linguistic patterns could cause severe reputational harm to firms if treated
-        as a definitive signal of fraud. To mitigate this, our findings must be treated strictly as an exploratory,
-        probabilistic screening aid that requires human review. Furthermore, we acknowledge the risk of LLM
-        hallucination in zero-shot classification, which we mitigate by logging and reviewing a stratified random sample
-        of model rationales.</p>
+    <p><b>How we are responding to that limitation.</b></p>
+    <p>
+      We are reframing the project as a controlled empirical study under realistic data constraints. The next phase focuses on: (1) lexicon baselines, (2) contextual embedding or lightweight transformer-based models, and (3) zero-/few-shot LLM prompting. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
+    </p>
 
-      <hr>
+    <p><b>Future work.</b></p>
+    <p>
+      Future improvements include validating SEC metadata labels against filing text, expanding transcript coverage to earlier years and smaller-cap firms, and revisiting stronger supervised transformer training if the positive class can be expanded.
+    </p>
 
+    <p><b>Ethical framing.</b></p>
+    <p>
+      This project does not claim to detect fraud or intentional deception. It studies linguistic patterns associated with later restatement disclosures and should only be interpreted as an exploratory risk-screening framework requiring human review.
+    </p>
 
+    <hr>
   </div>
-
-
-
 </body>
-
 </html>
