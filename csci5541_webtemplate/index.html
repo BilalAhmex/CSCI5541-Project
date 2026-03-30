@@ -55,7 +55,7 @@
 
     <h2 id="abstract">Abstract</h2>
     <p>
-      We study whether executives’ language on earnings call transcripts contains detectable precursors of later SEC Form 8-K Item 4.02 restatement disclosures. Since our original proposal, the project has evolved from a large-scale benchmark ambition into a controlled empirical study under realistic data constraints. We built an end-to-end dataset curation pipeline that extracts restatement labels from SEC EDGAR <i>submissions.zip</i>, assembles transcripts from MAEC and Motley Fool, segments calls into scripted prepared remarks and unscripted Q&amp;A, and matches calls to later restatements. The current dataset contains 198 labeled examples (66 positive, 132 matched controls). Given the limited overlap between public transcript corpora and restatement events, our current modeling plan emphasizes three tiers under small-data conditions: a Loughran–McDonald lexicon baseline, contextual financial embeddings / lightweight transformer experiments, and zero-/few-shot LLM prompting.
+      We study whether executives’ language on earnings call transcripts contains detectable precursors of later SEC Form 8-K Item 4.02 restatement disclosures. Since our original proposal, the project has evolved from a large-scale benchmark ambition into a controlled empirical study under realistic data constraints. We built an end-to-end dataset curation pipeline that extracts restatement labels from SEC EDGAR <i>submissions.zip</i>, assembles transcripts from MAEC and Motley Fool, segments calls into scripted prepared remarks and unscripted Q&amp;A, and matches calls to later restatements. The current dataset contains 198 labeled examples (66 positive, 132 matched controls). Given the limited overlap between public transcript corpora and restatement events, our current modeling plan emphasizes three tiers under small-data conditions: a Loughran–McDonald lexicon baseline, fine-tuned transformers experiments, and zero-/few-shot LLM prompting.
     </p>
     <hr>
 
@@ -102,14 +102,14 @@
 
     <p><b>What changed relative to the original proposal?</b></p>
     <p>
-      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days and reframed the project as a small-data empirical comparison rather than a large supervised benchmark.
+      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days
     </p>
 
     <p><b>Current model tiers</b></p>
     <ul>
-      <li><b>Tier 1 — Lexicon baseline:</b> Loughran–McDonald lexical categories and sparse text features with classical classifiers.</li>
-      <li><b>Tier 2 — Contextual model:</b> Financial-domain contextual embeddings and lightweight transformer experiments under limited supervision.</li>
-      <li><b>Tier 3 — LLM prompting:</b> Zero-shot and few-shot prompting to evaluate whether larger models can detect risk-related discourse patterns without task-specific training.</li>
+      <li><b>Tier 1 — Lexicon baseline</b></li>
+      <li><b>Tier 2 — Fine Tuned Transformers</b> </li>
+      <li><b>Tier 3 — LLM prompting</b></li>
     </ul>
 
     <hr>
@@ -153,9 +153,9 @@
     </table>
 
     <br>
-    <div style="text-align: center;">
+    <!-- <div style="text-align: center;">
       <img style="height: 300px;" alt="Project progress summary" src="./files/results.png">
-    </div>
+    </div> -->
     <br><br>
 
     <p><b>Interpretation.</b></p>
@@ -173,13 +173,13 @@
 
     <p><b>How we are responding to that limitation.</b></p>
     <p>
-      We are reframing the project as a controlled empirical study under realistic data constraints. The next phase focuses on: (1) lexicon baselines, (2) contextual embedding or lightweight transformer-based models, and (3) zero-/few-shot LLM prompting. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
+      The next phase focuses on: (1) lexicon baselines, (2) fine-tuned transformers (contextualor potentiallly embedding or lightweight transformer-based models), and (3) zero-/few-shot LLM prompting. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
     </p>
 
-    <p><b>Future work.</b></p>
+    <!-- <p><b>Future work.</b></p>
     <p>
       Future improvements include validating SEC metadata labels against filing text, expanding transcript coverage to earlier years and smaller-cap firms, and revisiting stronger supervised transformer training if the positive class can be expanded.
-    </p>
+    </p> -->
 
     <p><b>Ethical framing.</b></p>
     <p>
