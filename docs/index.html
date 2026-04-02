@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NLP Class Project | Spring 2026 CSCI 5541 | University of Minnesota</title>
+
+  <link rel="stylesheet" href="./files/bulma.min.css" />
+  <link rel="stylesheet" href="./files/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com/">
+  <link href="./files/css2" rel="stylesheet">
+  <link href="./files/css" rel="stylesheet">
+  <base href="." target="_blank">
+</head>
+<body>
+  <div>
+    <div class="wrapper">
+      <h1 style="font-family: 'Lato', sans-serif;">Linguistic Precursors to Financial Restatements: A Multi-Model NLP Analysis of Earnings Call Transcripts</h1>
+      <h4 style="font-family: 'Lato', sans-serif;">Spring 2026 CSCI 5541 NLP: Class Project - University of Minnesota</h4>
+      <h4 style="font-family: 'Lato', sans-serif;">Lexicon Labs</h4>
+
+      <div class="authors-wrapper">
+        <div class="author-container"><p>Shivank Sapra</p></div>
+        <div class="author-container"><p>Bilal Ahmed</p></div>
+        <div class="author-container"><p>Ahmet Efe</p></div>
+      </div>
+
+      <br />
+
+      <div class="authors-wrapper">
+        <div class="publication-links">
+          <span class="link-block">
+            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+              <span>Midterm Check-In</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+              <span>Project Proposal</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+              <span>Code</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <hr>
+
+    <h2 id="abstract">Abstract</h2>
+    <p>
+      We study whether executives’ language on earnings call transcripts contains detectable precursors of later SEC Form 8-K Item 4.02 restatement disclosures. Since our original proposal, the project has evolved from a large-scale benchmark ambition into a controlled empirical study under realistic data constraints. We built an end-to-end dataset curation pipeline that extracts restatement labels from SEC EDGAR <i>submissions.zip</i>, assembles transcripts from MAEC and Motley Fool, segments calls into scripted prepared remarks and unscripted Q&amp;A, and matches calls to later restatements. The current dataset contains 198 labeled examples (66 positive, 132 matched controls). Given the limited overlap between public transcript corpora and restatement events, our current modeling plan emphasizes three tiers under small-data conditions: a Loughran–McDonald lexicon baseline, fine-tuned transformers experiments, and zero-/few-shot LLM prompting.
+    </p>
+    <hr>
+
+    <h2 id="teaser">Teaser Figure</h2>
+    <p>
+      The figure below summarizes our current data curation pipeline. We first extract Item 4.02 filings from SEC bulk submissions data, then combine free earnings-call transcript corpora, segment calls into full/scripted/Q&amp;A views, match positives in a pre-event window, and construct a 2:1 matched control set.
+    </p>
+    <p class="sys-img"><img src="./files/teaser.png" alt="Dataset curation pipeline"></p>
+
+    <h3 id="pipeline-caption">Pipeline summary</h3>
+    <p>
+      This project’s main technical milestone so far is the dataset pipeline itself. The biggest challenge was not model training, but aligning regulatory events with publicly available transcript data in a leakage-aware way.
+    </p>
+
+    <hr>
+
+    <h2 id="introduction">Introduction / Background / Motivation</h2>
+    <p><b>What problem are we trying to solve?</b></p>
+    <p>
+      When a publicly traded company files SEC Form 8-K Item 4.02, it formally discloses that previously issued financial statements should no longer be relied upon. We ask whether there are earlier linguistic signals in management’s earnings-call language—especially in unscripted analyst Q&amp;A—that precede these restatement disclosures.
+    </p>
+
+    <p><b>Why is this difficult?</b></p>
+    <p>
+      Prior work on earnings calls mostly studies market outcomes such as volatility or returns, not discrete regulatory events. In our case, the core difficulty is dataset construction: public transcript corpora skew toward large-cap firms, while Item 4.02 restatements often occur at smaller firms with weaker controls. This creates a structural coverage mismatch between labels and available text.
+    </p>
+
+    <p><b>Why does it matter?</b></p>
+    <p>
+      If linguistic signals exist before a restatement becomes public, they could support a probabilistic screening tool for analysts, regulators, or researchers. Our aim is not to accuse firms of fraud, but to study whether language carries measurable early-warning patterns under realistic data limitations.
+    </p>
+
+    <hr>
+
+    <h2 id="approach">Approach</h2>
+    <p><b>How is the dataset built?</b></p>
+    <ul>
+      <li><b>Phase 1 — Restatement labels:</b> Extract SEC Form 8-K Item 4.02 events from the SEC EDGAR <i>submissions.zip</i> bulk file. This yields 1,159 unique filings from 827 tickers spanning 2015–2024.</li>
+      <li><b>Phase 2 — Transcript pool:</b> Load and standardize earnings call transcripts from MAEC and Motley Fool. The current combined pool contains 20,223 transcripts from 3,087 tickers.</li>
+      <li><b>Phase 3 — Positive matching:</b> Link transcripts to later Item 4.02 filings using a 0–365 day pre-event window. This yields 66 positive examples.</li>
+      <li><b>Phase 4 — Controls:</b> For each positive example, sample two non-restating control calls matched on calendar quarter and, where available, SIC information.</li>
+      <li><b>Phase 5 — Final dataset:</b> Assemble 198 examples total (66 positive, 132 control) and create company-disjoint temporal splits.</li>
+    </ul>
+
+    <p><b>What changed relative to the original proposal?</b></p>
+    <p>
+      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days
+    </p>
+
+    <p><b>Current model tiers</b></p>
+    <ul>
+      <li><b>Tier 1 — Lexicon baseline</b></li>
+      <li><b>Tier 2 — Fine Tuned Transformers</b> </li>
+      <li><b>Tier 3 — LLM prompting</b></li>
+    </ul>
+
+    <hr>
+
+    <h2 id="results">Progress and Current Results</h2>
+    <p>
+      Our most significant result so far is the fully implemented dataset curation pipeline and the first viable matched dataset for the task.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center"><strong>Stage</strong></th>
+          <th style="text-align: center"><strong>Output</strong></th>
+          <th style="text-align: center"><strong>Status</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"><strong>Phase 1</strong></td>
+          <td style="text-align: center">1,159 Item 4.02 filings from 827 tickers</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><strong>Phase 2</strong></td>
+          <td style="text-align: center">20,223 transcripts from 3,087 tickers</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><strong>Phase 3</strong></td>
+          <td style="text-align: center">66 positive matches (0–365 day window)</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+        <tr>
+          <td style="text-align: center"><strong>Phase 4–5</strong></td>
+          <td style="text-align: center">198-example final dataset (66 pos / 132 ctrl)</td>
+          <td style="text-align: center">Complete</td>
+        </tr>
+      </tbody>
+      <caption>Table 1. Current dataset curation progress.</caption>
+    </table>
+
+    <br>
+    <!-- <div style="text-align: center;">
+      <img style="height: 300px;" alt="Project progress summary" src="./files/results.png">
+    </div> -->
+    <br><br>
+
+    <p><b>Interpretation.</b></p>
+    <p>
+      The small number of positives is not a pipeline failure; it reflects a real structural limitation of free data sources. Of 827 unique restating tickers, only a small subset appear in available transcript corpora with usable dates and text. This finding itself is an important project outcome and directly motivates our small-data evaluation strategy.
+    </p>
+
+    <hr>
+
+    <h2 id="conclusion">Conclusion, Limitations, and Next Steps</h2>
+    <p><b>Current limitation.</b></p>
+    <p>
+      The main limitation is dataset overlap. Public transcript resources underrepresent the smaller firms that disproportionately appear in the restatement set. This reduced our final matched dataset to 66 positives, which is enough for lexicon baselines, prompt-based evaluation, and exploratory contextual modeling, but not ideal for strong end-to-end transformer fine-tuning claims.
+    </p>
+
+    <p><b>How we are responding to that limitation.</b></p>
+    <p>
+      The next phase focuses on: (1) lexicon baselines, (2) fine-tuned transformers (contextualor potentiallly embedding or lightweight transformer-based models), and (3) zero-/few-shot LLM prompting. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
+    </p>
+
+    <!-- <p><b>Future work.</b></p>
+    <p>
+      Future improvements include validating SEC metadata labels against filing text, expanding transcript coverage to earlier years and smaller-cap firms, and revisiting stronger supervised transformer training if the positive class can be expanded.
+    </p> -->
+
+    <p><b>Ethical framing.</b></p>
+    <p>
+      This project does not claim to detect fraud or intentional deception. It studies linguistic patterns associated with later restatement disclosures and should only be interpreted as an exploratory risk-screening framework requiring human review.
+    </p>
+
+    <hr>
+  </div>
+</body>
+</html>
