@@ -12,22 +12,6 @@
   <link href="./files/css2" rel="stylesheet">
   <link href="./files/css" rel="stylesheet">
   <base href="." target="_blank">
-  <style>
-    table.metrics-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    table.metrics-table th, table.metrics-table td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-    table.metrics-table th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-    }
-  </style>
 </head>
 <body>
   <div>
@@ -46,6 +30,11 @@
 
       <div class="authors-wrapper">
         <div class="publication-links">
+          <!-- <span class="link-block">
+            <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+              <span>Midterm Check-In</span>
+            </a>
+          </span> -->
           <span class="link-block">
             <a href="https://drive.google.com/file/d/1T4oohmaiGu_TvRsfiQwIwtpHKmoSKwLt/view?usp=sharing" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
               <span>Project Proposal</span>
@@ -78,7 +67,7 @@
 
     <h3 id="pipeline-caption">Pipeline summary</h3>
     <p>
-      This project’s main technical milestone till the check-in is the dataset pipeline, which covers 2 out of the 5 phases of our projects. The biggest challenge was aligning regulatory events with publicly available transcript data in a leakage-aware way.
+      This project’s main technical milestone till the check-in is the dataset pipeline, which covers 2 out of the 5 phases of our projects. The biggest challenge was  aligning regulatory events with publicly available transcript data in a leakage-aware way.
     </p>
 
     <hr>
@@ -113,7 +102,7 @@
 
     <p><b>What changed relative to the original proposal?</b></p>
     <p>
-      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days.
+      Originally, we proposed a 90–180 day clean window and a target of roughly 300–500 labeled calls. In practice, public transcript coverage limited overlap with restatement events. We therefore broadened the positive matching window to 0–365 days
     </p>
     
     <p><b>Interpretation.</b></p>
@@ -134,6 +123,206 @@
     <p>
       Our most significant result so far is the fully implemented dataset curation pipeline and the first viable matched dataset for the task.
     </p>
+
+    <h3 id="sample-dataset">Sample rows from the final dataset</h3>
+    <p>
+      The final dataset contains the following columns:
+      <code>transcript_id, ticker, company_name, call_date, label, days_before, announce_date, sic, source, full_text, scripted_text, qa_text, split</code>.
+      For readability, the sample below shows a compact representation, with transcript fields shortened to previews.
+    </p>
+    <br>
+
+    <style>
+      .dataset-preview-wrap {
+        width: 100%;
+        margin: 0 auto 1.5rem auto;
+      }
+
+      .dataset-preview-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 0.92rem;
+        line-height: 1.35;
+      }
+
+      .dataset-preview-table th,
+      .dataset-preview-table td {
+        border: 1px solid #d9d9d9;
+        padding: 10px 12px;
+        vertical-align: top;
+        text-align: left;
+        word-break: break-word;
+      }
+
+      .dataset-preview-table th {
+        background: #f5f5f5;
+      }
+
+      .dataset-preview-table .small {
+        white-space: nowrap;
+      }
+
+      .text-preview-block {
+        margin-bottom: 0.55rem;
+      }
+
+      .text-preview-block:last-child {
+        margin-bottom: 0;
+      }
+
+      .text-preview-label {
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 0.15rem;
+      }
+    </style>
+
+    <div class="dataset-preview-wrap">
+      <table class="dataset-preview-table">
+        <thead>
+          <tr>
+            <th style="width: 7%;">ID</th>
+            <th style="width: 7%;">Ticker</th>
+            <th style="width: 11%;">Call Date</th>
+            <th style="width: 7%;">Label</th>
+            <th style="width: 8%;">Days Before</th>
+            <th style="width: 11%;">Announce Date</th>
+            <th style="width: 12%;">Source</th>
+            <th style="width: 7%;">Split</th>
+            <th style="width: 30%;">Text Preview</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="small">T00019</td>
+            <td class="small">DY</td>
+            <td class="small">2020-02-26</td>
+            <td class="small">1</td>
+            <td class="small">26</td>
+            <td class="small">2020-03-23</td>
+            <td class="small">MotleyFool</td>
+            <td class="small">train</td>
+            <td>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Full:</span>
+                Prepared Remarks:\nOperator\nLadies and gentle...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Scripted:</span>
+                 Prepared Remarks:\nOperator\nLadies and gentle...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Q&amp;A:</span>
+                open the call for questions.\nQuestions and Ans...
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="small">C00049</td>
+            <td class="small">TCOM</td>
+            <td class="small">2021-03-04</td>
+            <td class="small">0</td>
+            <td class="small">—</td>
+            <td class="small">—</td>
+            <td class="small">MotleyFool</td>
+            <td class="small">train</td>
+            <td>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Full:</span>
+                Prepared Remarks:\nOperator\nThank you for sta...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Scripted:</span>
+                Prepared Remarks:\nOperator\nThank you for sta...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Q&amp;A:</span>
+                open the line for questions.\nQuestions and An...  train  
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="small">T00017</td>
+            <td class="small">BE</td>
+            <td class="small">2019-11-07</td>
+            <td class="small">1</td>
+            <td class="small">97</td>
+            <td class="small">2020-02-12</td>
+            <td class="small">MotleyFool</td>
+            <td class="small">train</td>
+            <td>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Full:</span>
+                Prepared Remarks:\nOperator\nGood afternoon, a...   
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Scripted:</span>
+                Prepared Remarks:\nOperator\nGood afternoon, a...   
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Q&amp;A:</span>
+                our first question comes from the line of Mich...
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="small">C00076</td>
+            <td class="small">CVCO</td>
+            <td class="small">2021-08-06</td>
+            <td class="small">0</td>
+            <td class="small">—</td>
+            <td class="small">—</td>
+            <td class="small">MotleyFool</td>
+            <td class="small">train</td>
+            <td>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Full:</span>
+                Prepared Remarks:\nOperator\nGood day and than...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Scripted:</span>
+                Prepared Remarks:\nOperator\nGood day and than...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Q&amp;A:</span>
+                —
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="small">C00091</td>
+            <td class="small">VOYA</td>
+            <td class="small">2022-02-09</td>
+            <td class="small">0</td>
+            <td class="small">—</td>
+            <td class="small">—</td>
+            <td class="small">MotleyFool</td>
+            <td class="small">val</td>
+            <td>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Full:</span>
+                Prepared Remarks:\nOperator\nGood morning, and...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Scripted:</span>
+                Prepared Remarks:\nOperator\nGood morning, and...
+              </div>
+              <div class="text-preview-block">
+                <span class="text-preview-label">Q&amp;A:</span>
+                Q&A session, we have also invited our vice cha...
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <br>
+        <caption>Table 1. Sample representation of rows from <code>dataset_final.csv</code>.</caption>
+      </table>
+    </div>
 
     <table>
       <thead>
@@ -170,168 +359,14 @@
           <td style="text-align: center">To be done</td>
         </tr>
       </tbody>
-      <caption>Table 1. Project phases and progress.</caption>
+      <caption>Table 2. Project phases and progress.</caption>
     </table>
 
     <br>
-
-    <h3 id="tier1-results">Tier 1: Lexical Baselines and the Failure of Dictionaries</h3>
-    <p>
-      The Tier 1 baseline establishes the performance ceiling of non-contextual NLP methods. We engineered a custom feature extraction pipeline utilizing a FeatureUnion to combine term frequencies across six Loughran-McDonald (LM) dictionary categories with standard TF-IDF unigrams. We evaluated Logistic Regression, Linear SVM, and Random Forest classifiers across our three structural conditions (Full, Scripted, and QA-Only).
-    </p>
-
-    <table class="metrics-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Model</th>
-          <th>AUROC</th>
-          <th>PR-AUC</th>
-          <th>HR-F1</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td rowspan="3"><b>Full Text</b></td>
-          <td>Logistic Reg.</td>
-          <td>0.631</td>
-          <td>0.468</td>
-          <td>0.550</td>
-        </tr>
-        <tr>
-          <td>SVM (Linear)</td>
-          <td><b>0.657</b></td>
-          <td><b>0.486</b></td>
-          <td>0.500</td>
-        </tr>
-        <tr>
-          <td>Random Forest</td>
-          <td>0.591</td>
-          <td>0.453</td>
-          <td><b>0.571</b></td>
-        </tr>
-        <tr>
-          <td rowspan="3"><b>Scripted</b></td>
-          <td>Logistic Reg.</td>
-          <td>0.525</td>
-          <td>0.409</td>
-          <td><b>0.564</b></td>
-        </tr>
-        <tr>
-          <td>SVM (Linear)</td>
-          <td>0.530</td>
-          <td>0.405</td>
-          <td>0.435</td>
-        </tr>
-        <tr>
-          <td>Random Forest</td>
-          <td><b>0.545</b></td>
-          <td><b>0.444</b></td>
-          <td>0.417</td>
-        </tr>
-        <tr>
-          <td rowspan="3"><b>QA-Only</b></td>
-          <td>Logistic Reg.</td>
-          <td>0.429</td>
-          <td>0.345</td>
-          <td><b>0.550</b></td>
-        </tr>
-        <tr>
-          <td>SVM (Linear)</td>
-          <td>0.455</td>
-          <td>0.358</td>
-          <td>0.333</td>
-        </tr>
-        <tr>
-          <td>Random Forest</td>
-          <td><b>0.482</b></td>
-          <td><b>0.380</b></td>
-          <td>0.385</td>
-        </tr>
-      </tbody>
-      <caption>Table 2. Tier 1 Test Set Performance. HR-F1 represents the F1 score evaluated at a High-Recall decision threshold.</caption>
-    </table>
-
-    <p>
-      Surprisingly, classical financial sentiment lexicons lacked the structural nuance required for discrete regulatory event detection. While classical models achieved moderate discriminative power on the full text (SVM AUROC = 0.657) and scripted remarks (RF AUROC = 0.545), performance on the unscripted Q&amp;A segment degraded to worse than random guessing (RF AUROC = 0.482). SHAP analysis of the QA-Only model revealed highly noisy, context-dependent top features (e.g., <i>portfolio, davidson, times, help</i>). Conversely, for the Scripted segment, raw TF-IDF unigrams overwhelmingly drove predictions—specifically overly optimistic words like <i>forward, potential, growing, prices</i>. This structurally validates the existence of a highly manufactured, overly optimistic linguistic façade in the prepared remarks (our Overcompensation Hypothesis).
-    </p>
-
-    <h3 id="tier2-results">Tier 2: Fine-Tuned Transformers and the Contextual Advantage</h3>
-    <p>
-      To evaluate whether contextual word representations capture subtle evasion signals missed by bag-of-words baselines, we fine-tuned six transformer architectures: FinBERT (finance domain-adapted), Longformer (sparse attention for long documents), BERT-base, BERT-large, RoBERTa, and DistilBERT. (DeBERTa-v3 was initially scoped but explicitly excluded from the final analysis due to intractable non-finite logit generation under bf16 mixed precision). 
-    </p>
-    <p>
-      For transcripts exceeding a model's maximum context window (e.g., FinBERT's 512 tokens or Longformer's 4096 tokens), we applied a tail-biased truncation strategy to explicitly preserve late-stage executive answers in the Full and QA-Only conditions, where cognitive load and linguistic evasion are theorized to peak.
-    </p>
-    <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #1F4E79; margin-bottom: 15px;">
-      <p style="margin: 0; color: #555;"><em>[Template Placeholder: Ahmet Efe to insert metrics tables and final performance analysis for the fine-tuned contextual transformers across the Full, Scripted, and QA-Only structural conditions.]</em></p>
-    </div>
-
-    <h3 id="tier3-results">Tier 3: LLM Prompting and Overcompensation Dominance</h3>
-    <p>
-      Our final tier evaluated whether general-purpose and domain-adapted Large Language Models (LLMs) could extract complex linguistic deception through zero-shot prompting, bypassing the need for task-specific fine-tuning. We evaluated Llama 3 (8B and 70B) against FinGPT (Llama-2-13B with a finance-specific LoRA) using strict JSON output schemas.
-    </p>
-
-    <table class="metrics-table">
-      <thead>
-        <tr>
-          <th>Model</th>
-          <th>Condition</th>
-          <th>Parse Rate</th>
-          <th>AUROC</th>
-          <th>PR-AUC</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td rowspan="2"><b>Llama 3 (8B)</b></td>
-          <td>Scripted</td>
-          <td>1.000</td>
-          <td>0.545</td>
-          <td>0.436</td>
-        </tr>
-        <tr>
-          <td>QA-Only</td>
-          <td>1.000</td>
-          <td>0.500</td>
-          <td>0.379</td>
-        </tr>
-        <tr>
-          <td rowspan="2"><b>Llama 3 (70B)</b></td>
-          <td>Scripted</td>
-          <td>1.000</td>
-          <td><b>0.611</b></td>
-          <td><b>0.477</b></td>
-        </tr>
-        <tr>
-          <td>QA-Only</td>
-          <td>1.000</td>
-          <td>0.581</td>
-          <td>0.422</td>
-        </tr>
-        <tr>
-          <td rowspan="2"><b>FinGPT (13B)</b></td>
-          <td>Scripted</td>
-          <td>0.034</td>
-          <td>N/A</td>
-          <td>N/A</td>
-        </tr>
-        <tr>
-          <td>QA-Only</td>
-          <td>0.034</td>
-          <td>N/A</td>
-          <td>N/A</td>
-        </tr>
-      </tbody>
-      <caption>Table 3. Tier 3 Zero-Shot LLM Performance. N/A indicates sample sizes were too small to calculate metrics.</caption>
-    </table>
-
-    <p>
-      We observed that domain-adapted models like FinGPT suffered catastrophic degradation. Because its underlying LoRA was narrowly fine-tuned strictly for ternary sentiment classification, it completely failed to generalize to complex epistemic reasoning, resulting in severe token hallucination and a valid JSON parse rate of just 3.4%.
-    </p>
-    <p>
-      Conversely, general-purpose Llama 3 models navigated the complex schema perfectly (Parse Rate = 1.000), with reasoning capacity scaling strictly with parameter count. While the 8B model hovered near random chance, the 70B model achieved calibrated decision boundaries. Most notably, the Llama 3 70B model achieved a higher AUROC on the Scripted remarks (0.611) than on the unscripted QA-Only segment (0.581). This definitively demonstrates that the highly manufactured linguistic smokescreen deployed in prepared remarks is a more statistically reliable precursor to an SEC 8-K Item 4.02 restatement than the unscripted evasion found during live questioning.
-    </p>
+    <!-- <div style="text-align: center;">
+      <img style="height: 300px;" alt="Project progress summary" src="./files/results.png">
+    </div> -->
+    <br><br>
 
     <hr>
 
@@ -343,8 +378,13 @@
 
     <p><b>How we are responding to that limitation.</b></p>
     <p>
-      The next phase focuses on: (1) lexicon baselines, (2) fine-tuned transformers (contextual or potentially embedding or lightweight transformer-based models), and (3) zero-/few-shot LLM prompting. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
+      The next phase focuses on: (1) lexicon baselines, (2) fine-tuned transformers (or potentiallly contextual embedding or lightweight transformer-based models), and (3) zero-/few-shot LLM prompting.  As per our discussion witht the course staff, we will use FinBERT as our second model tier data because it is a financial domain-related transformer model, hence may result in better performance as compared to Longformer, which is a general transformer model. We will compare performance across full transcripts and Q&amp;A-only sections and emphasize error analysis and interpretability over headline accuracy alone.
     </p>
+
+    <!-- <p><b>Future work.</b></p>
+    <p>
+      Future improvements include validating SEC metadata labels against filing text, expanding transcript coverage to earlier years and smaller-cap firms, and revisiting stronger supervised transformer training if the positive class can be expanded.
+    </p> -->
 
     <p><b>Ethical framing.</b></p>
     <p>
