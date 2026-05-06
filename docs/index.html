@@ -205,7 +205,7 @@
     </table>
 
     <p>
-      Surprisingly, classical financial sentiment lexicons lacked the structural nuance required for discrete regulatory event detection. While classical models achieved moderate discriminative power on the full text (SVM AUROC = 0.657) and scripted remarks (RF AUROC = 0.545), performance on the unscripted Q&amp;A segment degraded to worse than random guessing (RF AUROC = 0.482). SHAP analysis of the QA-Only model revealed highly noisy, context-dependent top features. Conversely, for the Scripted segment, raw TF-IDF unigrams overwhelmingly drove predictions—specifically overly optimistic words like <i>forward, potential, growing, prices</i>. This structurally validates the existence of a highly manufactured, overly optimistic linguistic façade in the prepared remarks (our Overcompensation Hypothesis).
+      Surprisingly, classical financial sentiment lexicons lacked the structural nuance required for discrete regulatory event detection. While classical models achieved moderate discriminative power on the full text (SVM AUROC = 0.657) and scripted remarks (RF AUROC = 0.545), performance on the unscripted Q&amp;A segment degraded to worse than random guessing (RF AUROC = 0.482). SHAP analysis of the QA-Only model revealed highly noisy, context-dependent top features. Conversely, for the Scripted segment, raw TF-IDF unigrams overwhelmingly drove predictions, specifically overly optimistic words like <i>forward, potential, growing, prices</i>. This structurally validates the existence of a highly manufactured, overly optimistic linguistic façade in the prepared remarks (our Overcompensation Hypothesis).
     </p>
 
     <h3 id="tier2-results">Tier 2: Fine-Tuned Transformers and Section-Dependent Signal Polarity</h3>
@@ -342,7 +342,7 @@
 
     <p><b>Ethical Considerations</b></p>
     <p>
-      Detecting linguistic precursors to financial restatements carries inherent risks, primarily reputational harm and market manipulation from false positives. Flagging a compliant firm's transcript for "overcompensation" could unfairly erode investor trust. Consequently, any system built upon this research must be strictly framed as a <b>probabilistic screening aid</b>, not an automated arbiter of truth. A "human-in-the-loop" is strictly required. We release our findings in the aggregate and offer our dataset as a community resource for academic NLP research, void of actionable trading strategies.
+      Detecting linguistic precursors to financial restatements carries inherent risks, primarily reputational harm and market manipulation from false positives. Flagging a compliant firm's transcript for "overcompensation" could unfairly erode investor trust. Consequently, any system built upon this research must be strictly framed as a <b>probabilistic screening aid</b>, not an automated arbiter of truth. A "human-in-the-loop" is strictly required. In the future, we will release our findings in aggregate and offer our dataset as a community resource for academic NLP research, void of actionable trading strategies.
     </p>
 
     <p><b>Conclusion &amp; Broader Impact</b></p>
@@ -352,7 +352,7 @@
 
     <p><b>Future Work &amp; Reproducibility</b></p>
     <p>
-      Future research should address the coverage gap by targeting small-cap transcripts and incorporating multimodal architectures to analyze acoustic features (e.g., vocal pitch, hesitation markers) during live Q&amp;A. Additionally, exploring retrieval-augmented generation (RAG) to provide LLMs with historical, firm-specific baselines could drastically reduce false positives. To ensure full replicability, our anonymized dataset, segmentation scripts, LLM prompts, and modeling code will be open-sourced via our project GitHub repository.
+      Future research should address the coverage gap by targeting small-cap transcripts and incorporating multimodal architectures to analyze acoustic features (e.g., vocal pitch, hesitation markers) during live Q&amp;A. Additionally, exploring retrieval-augmented generation (RAG) to provide LLMs with historical, firm-specific baselines could drastically reduce false positives. To ensure full replicability, our anonymized dataset, segmentation scripts, LLM prompts, and modeling code will be open-sourced via our project GitHub repository upon publication.
     </p>
 
     <hr>
